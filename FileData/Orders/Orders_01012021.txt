@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+7,Jamie Vardy,TX,4.45,Wood,323.00,5.15,4.75,1663.45,1534.25,142.30,3340.00
