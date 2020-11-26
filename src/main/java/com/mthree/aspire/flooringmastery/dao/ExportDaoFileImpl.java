@@ -29,7 +29,7 @@ public class ExportDaoFileImpl implements ExportDao {
     private final String FILE_NAME = "DataExport.txt";
     private final String DELIMITER = ",";
     private final String HEADER = "OrderNumber,CustomerName,State,TaxRate,"
-            + "ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,"
+            + "ProductType,Area,CostPerSquareFoot,LabourCostPerSquareFoot,"
             + "MaterialCost,LaborCost,Tax,Total,OrderDate";
     private final Map<LocalDate, List<Order>> ordersByDate = new HashMap<>();
 

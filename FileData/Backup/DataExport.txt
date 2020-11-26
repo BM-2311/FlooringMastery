@@ -1,8 +1,6 @@
-OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LabourCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total,OrderDate
 1,Ada Lovelace,CA,25.00,Tile,249.00,3.50,4.15,871.50,1033.35,476.21,2381.06,06-01-2013
 2,Doctor Who,WA,9.25,Wood,243.00,5.15,4.75,1251.45,1154.25,222.53,2628.23,06-02-2013
 3,Albert Einstein,KY,6.00,Carpet,217.00,2.25,2.10,488.25,455.70,56.64,1000.59,06-02-2013
-5,Barinder,TX,4.45,Wood,100.00,5.15,4.75,515.00,475.00,44.06,1034.06,11-26-2020
 6,Acne, Inc.,TX,4.45,Tile,1000.00,3.50,4.15,3500.00,4150.00,340.43,7990.43,11-27-2020
 8,Toby,TX,4.45,Wood,102.00,5.15,4.75,525.30,484.50,44.94,1054.74,11-27-2020
-7,Jamie Vardy,TX,4.45,Wood,323.00,5.15,4.75,1663.45,1534.25,142.30,3340.00,01-01-2021

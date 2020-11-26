@@ -28,7 +28,7 @@ public class OrderDaoFileImpl implements OrderDao {
     private final String ORDER_FILE_PREFIX;
     private final String DELIMITER = ",";
     private final String HEADER = "OrderNumber,CustomerName,State,TaxRate,"
-            + "ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,"
+            + "ProductType,Area,CostPerSquareFoot,LabourCostPerSquareFoot,"
             + "MaterialCost,LaborCost,Tax,Total";
     private final Map<Integer, Order> orders = new HashMap<>();
 
@@ -103,18 +103,25 @@ public class OrderDaoFileImpl implements OrderDao {
 
     private void writeToOrderFile(LocalDate date) throws PersistenceException {
         File file = new File(ORDERS_DIRECTORY + dateToFileName(date));
+        int lineCounter = 0;
         try (PrintWriter out = new PrintWriter(new FileWriter(file))) {
             out.println(HEADER);
             out.flush();
+            lineCounter++;
             for (Order order : orders.values()) {
                 out.println(marshallOrder(order));
                 out.flush();
+                lineCounter++;
             }
         } catch (IOException e) {
             throw new PersistenceException("Could not write to order file for "
                     + "the date "
                     + date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"))
                     + ".", e);
+        } finally {
+            if (lineCounter == 1) {
+                file.delete();
+            }
         }
     }
 
