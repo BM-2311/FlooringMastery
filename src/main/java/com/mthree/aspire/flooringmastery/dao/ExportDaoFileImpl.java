@@ -42,12 +42,18 @@ public class ExportDaoFileImpl implements ExportDao {
             out.flush();
             List<LocalDate> sortedDates = new ArrayList(ordersByDate.keySet());
             Collections.sort(sortedDates);
-            for (LocalDate date : sortedDates) {
-                for (Order order : ordersByDate.get(date)) {
-                    out.println(marshallOrderByDate(order, date));
-                    out.flush();
-                }
-            }
+
+            // For each date, iterate through orders and write to export file
+            sortedDates.forEach(date -> {
+                ordersByDate.get(date).stream()
+                        .map(order -> {
+                            out.println(marshallOrderByDate(order, date));
+                            return order;
+                        })
+                        .forEachOrdered(order -> {
+                            out.flush();
+                        });
+            });
         } catch (IOException e) {
             throw new PersistenceException("Could not export data.", e);
         }

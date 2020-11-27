@@ -102,11 +102,19 @@ public class OrderDaoFileImpl implements OrderDao {
             out.println(HEADER);
             out.flush();
             lineCounter++;
-            for (Order order : orders.values()) {
-                out.println(marshallOrder(order));
-                out.flush();
-                lineCounter++;
-            }
+
+            // For each order, write order to file and increment line counter
+            lineCounter = orders.values().stream()
+                    .map(order -> {
+                        out.println(marshallOrder(order));
+                        return order;
+                    })
+                    .map(order -> {
+                        out.flush();
+                        return order;
+                    })
+                    .map(order -> 1)
+                    .reduce(lineCounter, Integer::sum);
         } catch (IOException e) {
             throw new PersistenceException("Could not write to order file for "
                     + "the date "
