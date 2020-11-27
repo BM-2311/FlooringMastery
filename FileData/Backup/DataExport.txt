@@ -4,3 +4,4 @@ OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,Labour
 3,Albert Einstein,KY,6.00,Carpet,217.00,2.25,2.10,488.25,455.70,56.64,1000.59,06-02-2013
 6,Acne, Inc.,TX,4.45,Tile,1000.00,3.50,4.15,3500.00,4150.00,340.43,7990.43,11-27-2020
 8,Toby,TX,4.45,Wood,102.00,5.15,4.75,525.30,484.50,44.94,1054.74,11-27-2020
+9,Isaac Newton,TX,4.45,Laminate,1000.00,1.75,2.10,1750.00,2100.00,171.33,4021.33,01-05-2025

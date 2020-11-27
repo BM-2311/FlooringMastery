@@ -73,31 +73,25 @@ public class OrderDaoFileImpl implements OrderDao {
     private void loadOrdersByDate(LocalDate date) throws PersistenceException {
         orders.clear(); // Clears orders before loading by date
         File file = new File(ORDERS_DIRECTORY + dateToFileName(date));
-        try {
-            if (!file.createNewFile()) { // If file already exists, read from it, otherwise create a new file
-                try (Scanner sc = new Scanner(
-                        new BufferedReader(
-                                new FileReader(file)))) {
-                    String currentLine = "";
-                    if (sc.hasNextLine()) {
-                        currentLine = sc.nextLine();
-                    }
-                    Order currentOrder;
-                    while (sc.hasNextLine()) {
-                        currentLine = sc.nextLine();
-                        currentOrder = unmarshallOrder(currentLine);
-                        orders.put(currentOrder.getOrderNumber(), currentOrder);
-                    }
-                } catch (IOException e) {
-                    throw new PersistenceException("Could not load orders for the date "
-                            + date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-                            + " into memory.", e);
+        if (file.exists()) { // If file exists, read from it
+            try (Scanner sc = new Scanner(
+                    new BufferedReader(
+                            new FileReader(file)))) {
+                String currentLine = "";
+                if (sc.hasNextLine()) {
+                    currentLine = sc.nextLine();
                 }
+                Order currentOrder;
+                while (sc.hasNextLine()) {
+                    currentLine = sc.nextLine();
+                    currentOrder = unmarshallOrder(currentLine);
+                    orders.put(currentOrder.getOrderNumber(), currentOrder);
+                }
+            } catch (IOException e) {
+                throw new PersistenceException("Could not load orders for the date "
+                        + date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"))
+                        + " into memory.", e);
             }
-        } catch (IOException e) {
-            throw new PersistenceException("Could not create order file for the "
-                    + "date " + date.format(DateTimeFormatter.ofPattern("MM-dd-yyyy"))
-                    + ".");
         }
     }
 
