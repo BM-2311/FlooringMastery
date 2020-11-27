@@ -24,6 +24,12 @@ public class UserIoConsoleImpl implements UserIo {
     @Override
     public String readString(String prompt) {
         System.out.println(prompt);
+        return sc.nextLine();
+    }
+
+    @Override
+    public String readNonEmptyString(String prompt) {
+        System.out.println(prompt);
         String input = "";
         boolean isValid = false;
         while (!isValid) {
@@ -77,6 +83,32 @@ public class UserIoConsoleImpl implements UserIo {
         }
         return input;
     }
+    
+    @Override
+    public int readIntPossiblyEmpty(String prompt, int min, int max) {
+        System.out.println(prompt);
+        String stringInput = "";
+        int input = 0;
+        boolean isValid = false;
+        while (!isValid) {
+            try {
+                stringInput = sc.nextLine();
+                if (stringInput.isEmpty()) {
+                    return min - 1;
+                }
+                input = Integer.parseInt(stringInput);
+                if (input >= min && input <= max) {
+                    isValid = true;
+                } else {
+                    System.out.println("Please make sure the integer entered "
+                            + "is between " + min + " and " + max + "!");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Make sure you enter an integer!");
+            }
+        }
+        return input;
+    }
 
     @Override
     public BigDecimal readBigDecimal(String prompt, BigDecimal min) {
@@ -86,6 +118,32 @@ public class UserIoConsoleImpl implements UserIo {
         while (!isValid) {
             try {
                 input = new BigDecimal(sc.nextLine());
+                if (input.compareTo(min) == -1) {
+                    System.out.println("Please ensure you the number entered is"
+                            + " at least " + min + ".");
+                } else {
+                    isValid = true;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Make sure you enter a number!\n");
+            }
+        }
+        return input;
+    }
+    
+    @Override
+    public BigDecimal readBigDecimalPossiblyEmpty(String prompt, BigDecimal min) {
+        System.out.println(prompt);
+        String stringInput = "";
+        BigDecimal input = BigDecimal.ZERO;
+        boolean isValid = false;
+        while (!isValid) {
+            try {
+                stringInput = sc.nextLine();
+                if (stringInput.isEmpty()) {
+                    return min.subtract(BigDecimal.ONE);
+                }
+                input = new BigDecimal(stringInput);
                 if (input.compareTo(min) == -1) {
                     System.out.println("Please ensure you the number entered is"
                             + " at least " + min + ".");

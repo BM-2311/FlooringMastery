@@ -67,12 +67,12 @@ public class FlooringMasteryView {
     }
 
     public String askForCustomerName() {
-        String input = io.readString("Customer name: ");
+        String input = io.readNonEmptyString("Customer name: ");
         String regex = "^[a-zA-Z0-9\\.\\,\\s]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         while (!matcher.matches()) {
-            input = io.readString("Only alphanumeric, spaces, commas and periods"
+            input = io.readNonEmptyString("Only alphanumeric, spaces, commas and periods"
                     + " are valid. Please try again: ");
             matcher = pattern.matcher(input);
         }
@@ -82,7 +82,10 @@ public class FlooringMasteryView {
     public String askForCustomerName(Order order) {
         String input = io.readString("Customer name (currently "
                 + order.getCustomerName() + "): ");
-        String regex = "^[a-zA-Z0-9\\.\\,\\s]+$";
+        if (input.isEmpty()) {
+            return order.getCustomerName();
+        }
+        String regex = "^[a-zA-Z0-9.,\\s]+$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
         while (!matcher.matches()) {
@@ -94,12 +97,16 @@ public class FlooringMasteryView {
     }
 
     public String askForState() {
-        return io.readString("State abbreviation: ");
+        return io.readNonEmptyString("State abbreviation: ");
     }
 
     public String askForState(Order order) {
-        return io.readString("State abbreviation (currently "
+        String input = io.readString("State abbreviation (currently "
                 + order.getStateAbbreviation() + "): ");
+        if (input.isEmpty()) {
+            return order.getStateAbbreviation();
+        }
+        return input;
     }
 
     public Product askForProductType(List<Product> products) {
@@ -130,9 +137,11 @@ public class FlooringMasteryView {
             }
             i++;
         }
-
-        int index = io.readInt("Product number (currently " + currentProductNumber
+        int index = io.readIntPossiblyEmpty("Product number (currently " + currentProductNumber
                 + "): ", 0, i - 1);
+        if (index == -1) { // Indicates user pressed enter without typing
+            return products.get(currentProductNumber);
+        }
         return products.get(index);
     }
 
@@ -142,8 +151,12 @@ public class FlooringMasteryView {
     }
 
     public BigDecimal askForArea(Order order) {
-        return io.readBigDecimal("Area (minimum 100 sq ft, currently "
+        BigDecimal input = io.readBigDecimalPossiblyEmpty("Area (minimum 100 sq ft, currently "
                 + order.getArea() + "sq ft): ", new BigDecimal(100));
+        if (input.equals(new BigDecimal(99))) { // Indicates user pressed enter without typing
+            return order.getArea();
+        }
+        return input;
     }
 
     public int addOrderConfirmation() {
